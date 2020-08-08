@@ -3,7 +3,7 @@
 十个章节，十周学习，加油！
 
 -   [x] [Part-0](./part0/README.md)
--   [ ] Part-1
+-   [x] [Part-1](./part1/README.md)
 -   [ ] Part-2
 -   [ ] Part-3
 -   [ ] Part-4
