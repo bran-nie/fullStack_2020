@@ -7,8 +7,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "server": "json-server -p3002 --watch phoneBook_db.json",
-        "server_test": "json-server -p3001 --watch db.json"
+        "server": "json-server -p3001 --watch db.json"
     },
     "eslintConfig": {
         "extends": "react-app"

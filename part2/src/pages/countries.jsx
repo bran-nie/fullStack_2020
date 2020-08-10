@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { debounce } from 'lodash-es';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { debounce } from "lodash-es";
 
 const CountryItem = ({ country, one }) => {
     console.log(one);
@@ -13,8 +13,8 @@ const CountryItem = ({ country, one }) => {
         <div className="country">
             <h4 className="name">
                 {country.name}
-                <button style={{ marginLeft: '15px' }} onClick={handleShow}>
-                    {showInfo ? 'hidden' : 'show'}
+                <button style={{ marginLeft: "15px" }} onClick={handleShow}>
+                    {showInfo ? "hidden" : "show"}
                 </button>
             </h4>
             {showInfo && (
@@ -52,20 +52,20 @@ const CountryList = ({ countries, len }) => {
 };
 
 const Country = () => {
-    const [searchVal, setSearchVal] = useState('');
+    const [searchVal, setSearchVal] = useState("");
     const [countries, setCountries] = useState([]);
 
     useEffect(() => {
-        const api = 'https://restcountries.eu/rest/v2/name/';
-        const v = searchVal.trim();
+        const api = "https://restcountries.eu/rest/v2/name/";
+        const name = searchVal.trim();
         // 除了字母和空格
         const r = /[^a-zA-Z\s]/;
-        if (v === '' || r.test(v)) {
+        if (name === "" || r.test(name)) {
             setCountries([]);
             return;
         }
         axios
-            .get(`${api}${v}`)
+            .get(`${api}${name}`)
             .then((res) => {
                 setCountries(res.data);
             })
