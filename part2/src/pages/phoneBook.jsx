@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const Button = ({ text, handleClick }) => (
-    <button onClick={handleClick}>{text}</button>
-);
+const Button = ({ text, handleClick }) => {
+    return <button onClick={handleClick}>{text}</button>;
+};
 const Person = ({ person }) => {
     const { name, number } = person;
     return (
         <p>
-            {name}, number: {number}
+            {name} {number}
         </p>
     );
 };
@@ -44,13 +45,19 @@ const FilterPersons = (props) => {
 };
 
 const PhoneBook = () => {
-    const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', number: '1', id: 1 },
-    ]);
+    const [persons, setPersons] = useState([]);
     const [newName, setNewName] = useState('');
     const [newNumber, setNewNumber] = useState('');
     const [filterName, setFilterName] = useState('');
     const [filterPersons, setFilterPersons] = useState([]);
+
+    useEffect(() => {
+        console.log('phone effect');
+        axios.get('http://localhost:3002/persons').then((res) => {
+            console.log(res.data);
+            setPersons(res.data);
+        });
+    }, []);
 
     const resetInput = () => {
         setNewName('');
