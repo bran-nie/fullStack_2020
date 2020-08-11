@@ -10,7 +10,7 @@ const Person = ({ person, handleDel }) => {
     return (
         <p>
             {name} {number}
-            <Button text="del" handleClick={handleDel} />
+            <Button text='del' handleClick={handleDel} />
         </p>
     );
 };
@@ -36,7 +36,7 @@ const PersonForm = (props) => {
                 <input value={number} onChange={numberHandle} />
             </div>
             <div>
-                <Button text="add" handleClick={handleSubmit} />
+                <Button text='add' handleClick={handleSubmit} />
             </div>
         </form>
     );
@@ -50,7 +50,7 @@ const FilterPersons = (props) => {
         delPerson,
     } = props;
     return (
-        <div className="search">
+        <div className='search'>
             <span>filter shown with</span>
             <input value={filterName} onChange={handleFilterNameChange} />
             <Persons persons={filterPersons} delPerson={delPerson} />
