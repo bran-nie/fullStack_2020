@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
 const Note = ({ note, toggleImportance }) => {
-    const label = note.important ? "make not important" : "make important";
+    const label = note.important ? 'make not important' : 'make important';
 
     return (
-        <li>
+        <li className="note-item">
             {note.content}
             <button onClick={toggleImportance}>{label}</button>
         </li>

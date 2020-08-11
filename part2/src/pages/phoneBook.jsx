@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import api from "../services/phoneBooks";
+import React, { useState, useEffect } from 'react';
+import Notification, { NotificationType } from '../components/Notification';
+import api from '../services/phoneBooks';
 
 const Button = ({ text, handleClick }) => {
     return <button onClick={handleClick}>{text}</button>;
@@ -59,10 +60,15 @@ const FilterPersons = (props) => {
 
 const PhoneBook = () => {
     const [persons, setPersons] = useState([]);
-    const [newName, setNewName] = useState("");
-    const [newNumber, setNewNumber] = useState("");
-    const [filterName, setFilterName] = useState("");
+    const [newName, setNewName] = useState('');
+    const [newNumber, setNewNumber] = useState('');
+    const [filterName, setFilterName] = useState('');
     const [filterPersons, setFilterPersons] = useState([]);
+    const defaultMsgObj = {
+        msg: null,
+        type: NotificationType.Success,
+    };
+    const [msgObj, setMsgObj] = useState(defaultMsgObj);
 
     useEffect(() => {
         api.getAll().then((data) => {
@@ -84,8 +90,8 @@ const PhoneBook = () => {
     }, [filterName, persons]);
 
     const resetInput = () => {
-        setNewName("");
-        setNewNumber("");
+        setNewName('');
+        setNewNumber('');
     };
 
     const handleNameChange = (e) => setNewName(e.target.value);
@@ -109,13 +115,26 @@ const PhoneBook = () => {
                 api.update(existPerson.id, {
                     ...existPerson,
                     number: newNumber,
-                }).then((res) => {
-                    console.log(res);
-                    setPersons(
-                        persons.map((p) => (p.id === existPerson.id ? res : p))
-                    );
-                    resetInput();
-                });
+                })
+                    .then((res) => {
+                        setMsgObj({
+                            msg: `Updated ${newName}`,
+                            type: NotificationType.Success,
+                        });
+                        setPersons(
+                            persons.map((p) =>
+                                p.id === existPerson.id ? res : p
+                            )
+                        );
+                        resetInput();
+                    })
+                    .catch((error) => {
+                        console.log(`Updated ${newName} error`, error);
+                        setMsgObj({
+                            msg: `Updated ${newName} error, Information of ${newName} has already been removed from server`,
+                            type: NotificationType.Error,
+                        });
+                    });
             }
         } else {
             const newPerson = {
@@ -124,41 +143,59 @@ const PhoneBook = () => {
                 date: new Date().toISOString(),
             };
             api.create(newPerson).then((data) => {
-                console.log(data);
                 setPersons(persons.concat(data));
                 resetInput();
+                setMsgObj({
+                    msg: `Added ${newName}`,
+                    type: NotificationType.Success,
+                });
             });
         }
     };
     const delPerson = ({ id, name }) => {
         const confirm = window.confirm(`Delete ${name}?`);
         if (confirm) {
-            api.del(id).then((res) => {
-                setPersons(persons.filter((p) => p.id !== id));
-            });
+            api.del(id)
+                .then((res) => {
+                    setPersons(persons.filter((p) => p.id !== id));
+                    setMsgObj({
+                        msg: `Del ${name} success`,
+                        type: NotificationType.Success,
+                    });
+                })
+                .catch((error) => {
+                    console.log(`del ${name} error`, error);
+                    setMsgObj({
+                        msg: `Information of "${name}" has already been removed from server`,
+                        type: NotificationType.Error,
+                    });
+                });
         }
     };
 
     return (
-        <div>
-            <h2>Phonebook</h2>
-            <FilterPersons
-                filterName={filterName}
-                handleFilterNameChange={handleFilterNameChange}
-                filterPersons={filterPersons}
-                delPerson={delPerson}
-            />
-            <h3>Add a new</h3>
-            <PersonForm
-                name={newName}
-                nameHandle={handleNameChange}
-                number={newNumber}
-                numberHandle={handleNumberChange}
-                handleSubmit={addPerson}
-            />
-            <h3>Persons</h3>
-            <Persons persons={persons} delPerson={delPerson} />
-        </div>
+        <>
+            <div>
+                <h1>Phonebook</h1>
+                <FilterPersons
+                    filterName={filterName}
+                    handleFilterNameChange={handleFilterNameChange}
+                    filterPersons={filterPersons}
+                    delPerson={delPerson}
+                />
+                <h3>Add a new</h3>
+                <PersonForm
+                    name={newName}
+                    nameHandle={handleNameChange}
+                    number={newNumber}
+                    numberHandle={handleNumberChange}
+                    handleSubmit={addPerson}
+                />
+                <h3>Persons</h3>
+                <Persons persons={persons} delPerson={delPerson} />
+            </div>
+            <Notification message={msgObj.msg} type={msgObj.type} />
+        </>
     );
 };
 

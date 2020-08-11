@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from "react";
-import Note from "../components/Note";
-import noteService from "../services/notes";
+import React, { useState, useEffect } from 'react';
+import Note from '../components/Note';
+import api from '../services/notes';
+import Notification, { NotificationType } from '../components/Notification';
 
 const NoteApp = () => {
     const [notes, setNotes] = useState([]);
-    const [newNote, setNewNote] = useState("");
+    const [newNote, setNewNote] = useState('');
     const [showAll, setShowAll] = useState(true);
+    const [errMsg, setErrMsg] = useState(null);
 
     useEffect(() => {
-        noteService.getAll().then((data) => {
-            setNotes(data);
+        api.getAll().then((data) => {
+            const tmp = {
+                id: 1333,
+                content: 'error',
+                date: '2019-05-30T17:30:31.098Z',
+                important: true,
+            };
+            setNotes(data.concat(tmp));
         });
     }, []);
 
@@ -21,10 +29,10 @@ const NoteApp = () => {
             important: Math.random() < 0.5,
         };
 
-        noteService.create(noteObject).then((response) => {
+        api.create(noteObject).then((response) => {
             console.log(response);
             setNotes(notes.concat(response.data));
-            setNewNote("");
+            setNewNote('');
         });
     };
     const toggleImportanceOf = (id) => {
@@ -34,11 +42,23 @@ const NoteApp = () => {
             const note = notes.find((n) => n.id === id);
             const changedNote = { ...note, important: !note.important };
 
-            noteService.update(id, changedNote).then((response) => {
-                setNotes(
-                    notes.map((note) => (note.id !== id ? note : response.data))
-                );
-            });
+            api.update(id, changedNote)
+                .then((response) => {
+                    setNotes(
+                        notes.map((note) =>
+                            note.id !== id ? note : response.data
+                        )
+                    );
+                })
+                .catch((error) => {
+                    setErrMsg(
+                        `Note "${note.content}" was already removed from server`
+                    );
+                    setTimeout(() => {
+                        setErrMsg(null);
+                    }, 5000);
+                    setNotes(notes.filter((n) => n.id !== id));
+                });
         };
     };
 
@@ -52,8 +72,9 @@ const NoteApp = () => {
     return (
         <div>
             <h1>Notes</h1>
+            <Notification message={errMsg} type={NotificationType.Error} />
             <button onClick={() => setShowAll(!showAll)}>
-                show {showAll ? "important" : "all"}
+                show {showAll ? 'important' : 'all'}
             </button>
             <ul>
                 {notesToShow.map((note) => (
