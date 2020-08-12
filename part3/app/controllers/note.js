@@ -9,7 +9,6 @@ const generateId = () => {
 const getAllNotes = (req, res) => {
     res.json(notes);
 };
-
 const getNote = (req, res) => {
     const id = Number(req.params.id);
     const note = notes.find((note) => note.id === id);
@@ -19,7 +18,6 @@ const getNote = (req, res) => {
         res.status(404).end();
     }
 };
-
 const deleteNote = (request, response) => {
     const id = Number(request.params.id);
     notes = notes.filter((note) => note.id !== id);
@@ -43,10 +41,28 @@ const createNote = (req, res) => {
 
     res.json(note);
 };
+const updateNote = (req, res) => {
+    const body = req.body;
+    console.log(body);
+    // if (!body.important) {
+    //     return res.status(400).json({
+    //         error: 'important missing',
+    //     });
+    // }
+    const note = {
+        ...body,
+        date: new Date(),
+    };
+
+    notes = notes.map((n) => (n.id === note.id ? note : n));
+
+    res.json(note);
+};
 
 module.exports = {
     getAllNotes,
     getNote,
     deleteNote,
+    updateNote,
     createNote,
 };

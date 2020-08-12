@@ -5,8 +5,8 @@ import CourseInfo from './pages/course';
 import Country from './pages/countries';
 
 const App = () => {
-    const showNote = false;
-    const showPhoneBook = true;
+    const showNote = true;
+    const showPhoneBook = false;
     const showCourse = false;
     const showCountry = false;
     return (
