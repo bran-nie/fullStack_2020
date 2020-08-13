@@ -8,8 +8,12 @@ if (process.argv.length < 3) {
 }
 
 const password = process.argv[2];
+const noteContent = process.argv[3];
 
-const url = `mongodb+srv://bran:${password}@cluster0-ostce.mongodb.net/test?retryWrites=true`;
+console.log('--- password: ', password);
+console.log(noteContent);
+
+const url = `mongodb+srv://bran:${password}@fullstack-2020.0aset.mongodb.net/note-app?retryWrites=true&w=majority`;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -21,13 +25,22 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model('Note', noteSchema);
 
-const note = new Note({
-    content: 'HTML is Easy',
-    date: new Date(),
-    important: true,
-});
+if (noteContent) {
+    const note = new Note({
+        content: noteContent,
+        date: new Date(),
+        important: Math.random() > 0.5,
+    });
 
-note.save().then((result) => {
-    console.log('note saved!');
-    mongoose.connection.close();
-});
+    note.save().then((result) => {
+        console.log('note saved!', note.important);
+        mongoose.connection.close();
+    });
+} else {
+    Note.find({}).then((result) => {
+        result.forEach((note) => {
+            console.log(note.content, note.important);
+        });
+        mongoose.connection.close();
+    });
+}
