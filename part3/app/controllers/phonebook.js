@@ -50,6 +50,18 @@ const obj = {
 
         res.json(person);
     },
+    updatePerson: (req, res) => {
+        const body = req.body;
+        console.log(body);
+        const person = {
+            ...body,
+            date: new Date(),
+        };
+
+        persons = persons.map((p) => (p.id === person.id ? person : p));
+
+        res.json(person);
+    },
 
     getInfo: (req, res) => {
         const len = persons.length;
@@ -60,6 +72,8 @@ const obj = {
     },
 };
 
-module.exports = {
-    ...obj,
+const controller = () => {
+    return { ...obj };
 };
+
+module.exports = controller;

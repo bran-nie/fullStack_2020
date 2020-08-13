@@ -59,10 +59,14 @@ const updateNote = (req, res) => {
     res.json(note);
 };
 
-module.exports = {
-    getAllNotes,
-    getNote,
-    deleteNote,
-    updateNote,
-    createNote,
+const controller = () => {
+    return {
+        getAllNotes,
+        getNote,
+        deleteNote,
+        updateNote,
+        createNote,
+    };
 };
+
+module.exports = controller;

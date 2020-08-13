@@ -1,20 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const {
-    createNote,
-    deleteNote,
-    getNote,
-    getAllNotes,
-    updateNote,
-} = require('./controllers/note');
-const {
-    getAllPersons,
-    getInfo,
-    getPerson,
-    deletePerson,
-    createPerson,
-} = require('./controllers/phonebook');
+
+const notesController = require('./controllers/note')();
+const phonebookController = require('./controllers/phonebook')();
 
 const logger = morgan(function (tokens, req, res) {
     let body = '';
@@ -54,17 +43,18 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>');
 });
 
-app.get('/api/notes', getAllNotes);
-app.get('/api/notes/:id', getNote);
-app.delete('/api/notes/:id', deleteNote);
-app.put('/api/notes/:id', updateNote);
-app.post('/api/notes', createNote);
+app.get('/api/notes', notesController.getAllNotes);
+app.get('/api/notes/:id', notesController.getNote);
+app.delete('/api/notes/:id', notesController.deleteNote);
+app.put('/api/notes/:id', notesController.updateNote);
+app.post('/api/notes', notesController.createNote);
 
-app.get('/phonebook/info', getInfo);
-app.get('/api/persons', getAllPersons);
-app.get('/api/persons/:id', getPerson);
-app.delete('/api/persons/:id', deletePerson);
-app.post('/api/persons', createPerson);
+app.get('/phonebook/info', phonebookController.getInfo);
+app.get('/api/persons', phonebookController.getAllPersons);
+app.get('/api/persons/:id', phonebookController.getPerson);
+app.delete('/api/persons/:id', phonebookController.deletePerson);
+app.put('/api/persons/:id', phonebookController.updatePerson);
+app.post('/api/persons', phonebookController.createPerson);
 
 const unknownEndpoint = (req, res) => {
     res.status(404).send({ error: 'unknown endpoint' });
@@ -76,3 +66,5 @@ const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+module.exports = app;

@@ -1,16 +1,18 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3001/notes';
+import baseUrl from './config';
+
+const api = baseUrl + '/api/notes';
 
 const getAll = async () => {
-    const res = await axios.get(baseUrl);
+    const res = await axios.get(api);
     return res.data;
 };
 const create = (newObject) => {
-    return axios.post(baseUrl, newObject);
+    return axios.post(api, newObject);
 };
 
 const update = (id, newObject) => {
-    return axios.put(`${baseUrl}/${id}`, newObject);
+    return axios.put(`${api}/${id}`, newObject);
 };
 
 export default { getAll, create, update };
