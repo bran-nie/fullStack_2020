@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -23,6 +24,8 @@ const logger = morgan(function (tokens, req, res) {
 });
 
 const app = express();
+
+app.use(express.static('build'));
 
 app.use(express.json());
 app.use(logger);
@@ -59,10 +62,23 @@ app.post('/api/persons', phonebookController.createPerson);
 const unknownEndpoint = (req, res) => {
     res.status(404).send({ error: 'unknown endpoint' });
 };
-
 app.use(unknownEndpoint);
 
-const PORT = 3001;
+const errorHandler = (error, req, res, next) => {
+    console.error('--- ', error.message);
+
+    if (error.name === 'CastError' && error.kind === 'ObjectId') {
+        return res.status(400).send({ error: 'malformatted id' });
+    } else if (error.name === 'ValidationError') {
+        return res.status(400).json({ error: error.message });
+    }
+
+    next(error);
+};
+app.use(errorHandler);
+
+// eslint-disable-next-line no-undef
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

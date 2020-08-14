@@ -7,7 +7,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const baseUrl = isDev ? devUrl : prodUrl;
 
-console.log('cur url: ', baseUrl);
+console.log('--- cur url: ', baseUrl);
 console.log(process.env);
 
 export default baseUrl;
