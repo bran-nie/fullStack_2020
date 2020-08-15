@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // node mongo.js bran123npc "phonebook-app" bran 132
 // node mongo.js bran123npc "note-app" bran
 
@@ -38,7 +39,7 @@ if (dbName === 'note-app') {
             important: Math.random() > 0.5,
         });
 
-        note.save().then((result) => {
+        note.save().then(() => {
             console.log('note saved!', note.important);
             mongoose.connection.close();
         });
