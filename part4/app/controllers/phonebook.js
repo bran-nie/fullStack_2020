@@ -1,9 +1,11 @@
+const personsRouter = require('express').Router();
 const Person = require('../models/phonebook');
+const logger = require('../utils/logger');
 
-const obj = {
+const controller = {
     getAllPersons: (req, res) => {
         Person.find({}).then((persons) => {
-            console.log('--- get all persons', persons.length);
+            logger.info('--- get all persons', persons.length);
             res.json(persons);
         });
     },
@@ -27,7 +29,7 @@ const obj = {
     },
     createPerson: (req, res) => {
         const body = req.body;
-        console.log(body);
+        logger.info(body);
 
         const { name, number } = body;
         if (!name) {
@@ -52,7 +54,7 @@ const obj = {
     },
     updatePerson: (req, res, next) => {
         const body = req.body;
-        console.log(body);
+        logger.info(body);
         const person = {
             ...body,
         };
@@ -74,8 +76,11 @@ const obj = {
     },
 };
 
-const controller = () => {
-    return { ...obj };
-};
+personsRouter.get('/phonebook/info', controller.getInfo);
+personsRouter.get('/api/persons', controller.getAllPersons);
+personsRouter.get('/api/persons/:id', controller.getPerson);
+personsRouter.delete('/api/persons/:id', controller.deletePerson);
+personsRouter.put('/api/persons/:id', controller.updatePerson);
+personsRouter.post('/api/persons', controller.createPerson);
 
-module.exports = controller;
+module.exports = personsRouter;

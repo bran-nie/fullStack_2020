@@ -1,8 +1,10 @@
+const notesRouter = require('express').Router();
 const Note = require('../models/note');
+const logger = require('../utils/logger');
 
 const getAllNotes = (req, res) => {
     Note.find({}).then((notes) => {
-        console.log('--- get all notes, length', notes.length);
+        logger.info('--- get all notes, length', notes.length);
         res.json(notes);
     });
 };
@@ -56,14 +58,10 @@ const updateNote = (req, res, next) => {
         .catch((error) => next(error));
 };
 
-const controller = () => {
-    return {
-        getAllNotes,
-        getNote,
-        deleteNote,
-        updateNote,
-        createNote,
-    };
-};
+notesRouter.get('/', getAllNotes);
+notesRouter.get('/:id', getNote);
+notesRouter.delete('/:id', deleteNote);
+notesRouter.put('/:id', updateNote);
+notesRouter.post('/', createNote);
 
-module.exports = controller;
+module.exports = notesRouter;
