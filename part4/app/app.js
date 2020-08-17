@@ -1,9 +1,25 @@
-// const config = require('./utils/config');
+const config = require('./utils/config');
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const mongoose = require('mongoose');
+const logger = require('./utils/logger');
 
-const notesRouter = require('./controllers/notes');
+mongoose.set('useFindAndModify', false);
+const url = config.MONGODB_URI;
+
+logger.info('connecting to', url);
+
+mongoose
+    .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        logger.info('connected to MongoDB');
+    })
+    .catch((error) => {
+        logger.error('error connecting to MongoDB:', error.message);
+    });
+
+const notesRouter = require('./controllers/note');
 const personsRouter = require('./controllers/phonebook');
 const blogRouter = require('./controllers/blog');
 

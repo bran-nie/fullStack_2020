@@ -77,10 +77,10 @@ const controller = {
 };
 
 personsRouter.get('/phonebook/info', controller.getInfo);
-personsRouter.get('/api/persons', controller.getAllPersons);
-personsRouter.get('/api/persons/:id', controller.getPerson);
-personsRouter.delete('/api/persons/:id', controller.deletePerson);
-personsRouter.put('/api/persons/:id', controller.updatePerson);
-personsRouter.post('/api/persons', controller.createPerson);
+personsRouter.get('/', controller.getAllPersons);
+personsRouter.get('/:id', controller.getPerson);
+personsRouter.delete('/:id', controller.deletePerson);
+personsRouter.put('/:id', controller.updatePerson);
+personsRouter.post('/', controller.createPerson);
 
 module.exports = personsRouter;

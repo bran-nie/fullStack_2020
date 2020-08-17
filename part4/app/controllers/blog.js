@@ -1,8 +1,10 @@
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog');
+const logger = require('../utils/logger');
 
 blogRouter.get('/', (request, response) => {
     Blog.find({}).then((blogs) => {
+        logger.info('--- get all notes, length', blogs.length);
         response.json(blogs);
     });
 });

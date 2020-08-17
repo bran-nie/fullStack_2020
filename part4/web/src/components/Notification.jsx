@@ -11,12 +11,16 @@ const Notification = (props) => {
     const { message, type = NotificationType.Success, delay = 3000 } = props;
     const [msg, setMsg] = useState(null);
     useEffect(() => {
+        let timer = null;
         if (message) {
             setMsg(message);
-            setTimeout(() => {
+            timer = setTimeout(() => {
                 setMsg(null);
             }, delay);
         }
+        return () => {
+            clearTimeout(timer);
+        };
     }, [message, delay]);
 
     if (msg === null) {

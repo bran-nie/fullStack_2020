@@ -81,4 +81,36 @@ if (dbName === 'note-app') {
             mongoose.connection.close();
         });
     }
+} else if (dbName === 'blog-app') {
+    console.log('--- in blog-app');
+    const blogTitle = process.argv[4];
+    const blogAuthor = process.argv[5];
+    const blogUrl = process.argv[6];
+    const blogLikes = process.argv[7];
+
+    const blogSchema = new mongoose.Schema({
+        title: String,
+        author: String,
+        url: String,
+        likes: Number,
+    });
+    const Blog = mongoose.model('Blog', blogSchema);
+    if (blogLikes) {
+        const blog = new Blog({
+            title: blogTitle,
+            author: blogAuthor,
+            url: blogUrl,
+            likes: blogLikes,
+        });
+
+        blog.save().then((result) => {
+            console.log('added ', result.title);
+            mongoose.connection.close();
+        });
+    } else {
+        Blog.find({}).then((result) => {
+            console.log('blogs length', result.length);
+            mongoose.connection.close();
+        });
+    }
 }
