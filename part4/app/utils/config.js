@@ -1,15 +1,16 @@
 /* eslint-disable no-undef */
 require('dotenv').config();
-console.log(process.env.NODE_ENV);
 
 const PORT = process.env.PORT;
+const MODE = process.env.NODE_ENV;
 let MONGODB_URI = process.env.MONGODB_URI;
-if (process.env.NODE_ENV === 'test') {
+if (MODE === 'test') {
     MONGODB_URI = process.env.TEST_MONGODB_URI;
 }
 
 module.exports = {
     PORT,
+    MODE,
     MONGODB_URI,
 };
 

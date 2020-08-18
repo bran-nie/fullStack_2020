@@ -1,5 +1,9 @@
+const config = require('./config');
+
 const info = (...params) => {
-    console.log('--- ', ...params);
+    if (config.MODE !== 'test') {
+        console.log('--- ', ...params);
+    }
 };
 
 const error = (...params) => {

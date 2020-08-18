@@ -24,7 +24,7 @@ const noteSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true,
+        required: false,
     },
     important: Boolean,
 });
