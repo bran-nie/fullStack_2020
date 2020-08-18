@@ -5,7 +5,7 @@
 -   [x] [Part-0](./part0/README.md)
 -   [x] [Part-1](./part1/README.md)
 -   [x] [Part-2](./part2/README.md)
--   [ ] Part-3
+-   [x] Part-3
 -   [ ] Part-4
 -   [ ] Part-5
 -   [ ] Part-6
