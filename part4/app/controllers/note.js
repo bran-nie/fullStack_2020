@@ -19,13 +19,9 @@ const getNote = async (req, res, next) => {
         next(error);
     }
 };
-const deleteNote = async (req, res, next) => {
-    try {
-        await Note.findByIdAndRemove(req.params.id);
-        res.status(204).end();
-    } catch (error) {
-        next(error);
-    }
+const deleteNote = async (req, res) => {
+    await Note.findByIdAndRemove(req.params.id);
+    res.status(204).end();
 };
 const createNote = async (req, res, next) => {
     const body = req.body;
