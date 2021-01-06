@@ -1,9 +1,9 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFwcmlsIiwiaWQiOiI1ZmY1NmY0ODgxYTQ5M2M3NTI5MjRiYzMiLCJpYXQiOjE2MDk5MjAzNTZ9.t4dEv0dZKlymGqYCMkJ0gzKymdm-3AikBCXs5UTsXFw
 
 {
-    "title": "rest created blog",
-    "author": "bran",
+    "title": "创建新的博客，作者是april 2",
     "url": "https://google.com",
     "likes": 55
 }
