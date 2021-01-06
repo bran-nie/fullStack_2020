@@ -1,0 +1,33 @@
+{
+    "name": "note",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "cross-env NODE_ENV=production node index.js",
+        "dev": "cross-env NODE_ENV=development nodemon index.js",
+        "lint": "eslint .",
+        "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
+        "test-file": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles -- tests/blog_api.test.js"
+    },
+    "author": "Bran.nie",
+    "license": "MIT",
+    "dependencies": {
+        "bcrypt": "^5.0.0",
+        "cors": "^2.8.5",
+        "cross-env": "^7.0.2",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-async-errors": "^3.1.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.9.28",
+        "mongoose-unique-validator": "^2.0.3",
+        "morgan": "^1.10.0"
+    },
+    "devDependencies": {
+        "eslint": "^7.6.0",
+        "jest": "^26.4.0",
+        "nodemon": "^2.0.4",
+        "supertest": "^4.0.2"
+    }
+}
