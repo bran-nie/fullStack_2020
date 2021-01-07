@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Notification, { NotificationType } from '../components/Notification';
-import api from '../services/phoneBooks';
+import Notification, {
+    NotificationType,
+} from '../../components/Notification/index';
+import api from '../../services/phoneBooks';
 
 const Button = ({ text, handleClick }) => {
     return <button onClick={handleClick}>{text}</button>;

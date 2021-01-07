@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Note from '../components/Note';
-import api from '../services/notes';
-import Notification, { NotificationType } from '../components/Notification';
+import Notification, {
+    NotificationType,
+} from '../../components/Notification/index';
+import api from '../../services/notes';
+import Note from './NoteItem';
 
 const NoteApp = () => {
     const [notes, setNotes] = useState([]);

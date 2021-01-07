@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../services/blog';
+import api from '../../services/blog';
 
 const Blog = (props) => {
     const { author, title, url } = props.blog;

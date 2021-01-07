@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './index.scss';
 // import ReactDom from 'react-dom';
 
 export const NotificationType = {
