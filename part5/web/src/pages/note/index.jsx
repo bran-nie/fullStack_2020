@@ -4,10 +4,10 @@ import Notification, {
 } from '../../components/Notification/index';
 import api from '../../services/notes';
 import Note from './NoteItem';
+import NoteForm from './NoteForm';
 
 const NoteApp = () => {
     const [notes, setNotes] = useState([]);
-    const [newNote, setNewNote] = useState('');
     const [showAll, setShowAll] = useState(true);
     const [errMsg, setErrMsg] = useState(null);
 
@@ -20,19 +20,14 @@ const NoteApp = () => {
         return () => {};
     }, []);
 
-    const addNote = (event) => {
-        event.preventDefault();
-        const noteObject = {
-            content: newNote,
-            date: new Date().toISOString(),
-            important: Math.random() < 0.5,
-        };
-
-        api.create(noteObject).then((response) => {
-            console.log(response);
-            setNotes(notes.concat(response.data));
-            setNewNote('');
-        });
+    const addNote = async (data) => {
+        try {
+            const res = await api.create(data);
+            console.log({ res });
+            setNotes(notes.concat(res));
+        } catch (error) {
+            console.log(error);
+        }
     };
     const toggleImportanceOf = (id) => {
         return () => {
@@ -61,9 +56,6 @@ const NoteApp = () => {
         };
     };
 
-    const handleNoteChange = (event) => {
-        setNewNote(event.target.value);
-    };
     const notesToShow = showAll
         ? notes
         : notes.filter((note) => note.important);
@@ -84,14 +76,7 @@ const NoteApp = () => {
                     />
                 ))}
             </ul>
-            <form onSubmit={addNote}>
-                <input
-                    value={newNote}
-                    placeholder="a new note..."
-                    onChange={handleNoteChange}
-                />
-                <button type="submit">save</button>
-            </form>
+            <NoteForm createNote={addNote} />
         </div>
     );
 };

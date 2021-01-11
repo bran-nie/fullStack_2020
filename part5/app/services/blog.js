@@ -68,12 +68,13 @@ const deleteBlog = async (request, response, next) => {
     try {
         const blog = await Blog.findById(request.params.id);
         const user = await User.findById(decodedToken.id);
-        if (blog.user.toString() === user.id.toString()) {
+        // 如果没有user的blog，也可以删去
+        if (!blog.user || blog.user.toString() === user.id.toString()) {
             await Blog.findByIdAndRemove(request.params.id);
             response.status(204).end();
         } else {
             response.status(403).json({
-                error: 'not your blog, you can not to delete',
+                error: 'not your blog, you can not delete',
             });
         }
     } catch (error) {

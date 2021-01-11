@@ -1,13 +1,17 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useRef } from 'react';
 import routes from './router/index';
 import Login from './pages/login/index';
+import Toggleabel from './components/Toggleable';
 
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const App = () => {
+    const loginFormRef = useRef();
     return (
         <>
-            <Login />
+            <Toggleabel buttonLabel="Login" ref={loginFormRef}>
+                <Login />
+            </Toggleabel>
             <Router>
                 <div>
                     <nav>

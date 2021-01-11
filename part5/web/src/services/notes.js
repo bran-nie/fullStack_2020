@@ -12,12 +12,14 @@ const getAll = async () => {
     const res = await axios.get(api);
     return res.data;
 };
-const create = (newObject) => {
-    return axios.post(api, newObject, config);
+const create = async (newObject) => {
+    const res = await axios.post(api, newObject, config);
+    return res.data;
 };
 
-const update = (id, newObject) => {
-    return axios.put(`${api}/${id}`, newObject);
+const update = async (id, newObject) => {
+    const res = await axios.put(`${api}/${id}`, newObject);
+    return res.data;
 };
 
 export default { getAll, create, update };
